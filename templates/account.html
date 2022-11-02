@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block conf %}
+<title>Account | {{ name }}</title>
+<link rel="icon" href="../static/images/icon.ico">
+<link rel="stylesheet" href="../static/account.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form class="form-signin" method="post" action="/account/">
+        <h2>Settings</h2>
+        {{ form.hidden_tag() }}
+        <p>{{ form.newsletter }} Receive newsletters</p>
+        <button type="submit">Save</button>
+    </form>
+</div>
+<br>
+<a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}

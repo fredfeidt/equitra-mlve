@@ -1,0 +1,8 @@
+# Ignore all the files in __pycache__
+*.pyc
+
+# Ignore all the Keys
+*.key
+
+# Ignore Temp files
+data/temp/

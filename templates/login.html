@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block conf %}
+<title>Login</title>
+<link rel="icon" href="../static/images/icon.ico">
+<link rel="stylesheet" href="../static/login.css">
+{% endblock %}
+
+{% block content %}
+<h2>Please sign in</h2>
+<form method="post" action="{{ url_for('login') }}">
+    {{ form.hidden_tag() }}
+    <p>Username</p>
+    {{ form.username }}
+
+    <p>Password</p>
+    {{ form.password }}
+    
+    <p>{{ form.remember }} Remember me</p>
+    {{ form.recaptcha }}
+    <button type="submit">Sign in</button>
+    <a href="#">Forgot password?</a>
+</form>
+
+<a href="{{ url_for('signup') }}">Sign Up</a>
+{% endblock %}

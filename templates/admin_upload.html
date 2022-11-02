@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Admin | Upload</title>
+    </head>
+
+    <body>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.file }}
+            <br>
+            {{ form.title }}
+            <br>
+            <button type="submit">Upload</button>
+        </form>
+        <br>
+        <a href="{{ url_for('admin') }}">Back to admin page</a>
+    </body>
+
+</html>

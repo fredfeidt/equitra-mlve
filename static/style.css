@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+}
+
+nav {
+    background: #000000;
+    padding: 5px 20px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.navbar li {
+    font-size: 16px;
+    padding: 15px 5px;
+}
+
+.navbar li a {
+    display: block;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+}
+
+/*
+.button {
+    border-bottom: 1px #444 solid;
+}
+*/
+
+/* Moblie Navbar */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle {
+    order: 1;
+}
+
+.item.button {
+    order: 3;
+}
+
+.item {
+    width: 100%;
+    text-align: center;
+    order: 2;
+    display: none;
+}
+
+.item.active {
+    display: block;
+}
+
+.toggle {
+    cursor: pointer;
+}
+
+.bars {
+    background: #999;
+    display: inline-block;
+    height: 2px;
+    position: relative;
+    width: 18px;
+}
+
+.bars::before, .bars::after {
+    background: #999;
+    content: "";
+    display: inline-block;
+    height: 2px;
+    position: absolute;
+    width: 18px;
+}
+
+.bars::before {
+    top: 5px;
+}
+
+.bars::after {
+    top: -5px;
+}
+
+/* Tablet Navbar*/
+@media all and (min-width:468px) {
+    .navbar {
+        justify-content: center;
+    }
+
+    .logo {
+        flex: 1;
+    }
+
+    .item.button {
+        width: auto;
+        order: 1;
+        display: block;
+    }
+
+    .toggle {
+        order: 2;
+    }
+
+    .item {
+        order: 3;
+    }
+
+    .button a {
+        padding: 7px 15px;
+        background: teal;
+        border: 1px solid #006d6d;
+        border-radius: 50em;
+        text-decoration: none;
+    }
+
+    .button a:hover {
+        background: rgb(0, 108, 108);
+        border-color: #005757;
+    }
+}
+
+@media all and (min-width: 825px) {
+    .item {
+        display: block;
+        width: auto;
+    }
+    
+    .toggle {
+        display: none;
+    }
+
+    .logo {
+        order: 0;
+    }
+
+    .item {
+        order: 1;
+    }
+
+    .button {
+        order: 2;
+    }
+
+    .navbar li {
+        padding: 15px 10px;
+    }
+
+    .navbar li.button {
+        padding-right: 0;
+    }
+}

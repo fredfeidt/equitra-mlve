@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block conf %}
+<title>{{ title }}</title>
+<link rel="icon" href="../static/images/icon.ico">
+<link rel="stylesheet" href="../static/read_article.css">
+{% endblock %}
+
+{% block content%}
+<h1>{{header}}</h1>
+{% for x in list %}
+    {% if x.startswith('title') %}
+        <h1>{{x.replace('title', '')}}</h1>
+    {% elif x.startswith('subtitle') %}
+        <h2>{{x.replace('subtitle', '')}}</h2>
+    {% elif x.startswith('break') %}
+        <br>
+    {% else %}
+        <p>{{x}}</p>
+    {% endif %}
+{% endfor %}
+{% endblock %}
