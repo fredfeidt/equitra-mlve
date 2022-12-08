@@ -6,3 +6,6 @@
 
 # Ignore Temp files
 data/temp/
+
+# Ignore Log files
+data/log/

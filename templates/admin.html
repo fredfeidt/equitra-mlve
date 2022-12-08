@@ -8,22 +8,6 @@
     <body>
         <p><a href="{{ url_for('admin_upload') }}">Upload</a></p>
         <p><a href="{{ url_for('clear_upload') }}">Clear upload folder</a></p>
-        <form method="post" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <p>{{ form.backup }} Backup all 24hrs</p>
-            {% if backup.startswith('True')%}
-                <p>Backup == True</p>
-            {% else %}
-                <p>Backup == False</p>
-            {% endif %}
-            <p>{{ form.cleartemp }} Auto clear temp folder</p>
-            {% if cleartemp.startswith('True')%}
-                <p>Auto clear temp folder == True</p>
-            {% else %}
-                <p>Auto clear temp folder == False</p>
-            {% endif %}
-            <button type="submit">Save</button><br>
-        </form>
         <p><a href="{{ url_for('home') }}">Back to home page</a></p>
     </body>
 

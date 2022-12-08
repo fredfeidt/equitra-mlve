@@ -8,8 +8,12 @@
 
 {% block content %}
 <div class="container">
+    <h2>Welcome, {{ name }}</h2>
+    <p>Username: {{ name }}</p>
+    <p>Email: {{ email }}</p>
+    <p><a href="#">Forgot password?</a></p>
+    <br>
     <form class="form-signin" method="post" action="/account/">
-        <h2>Settings</h2>
         {{ form.hidden_tag() }}
         <p>{{ form.newsletter }} Receive newsletters</p>
         <button type="submit">Save</button>
@@ -17,4 +21,5 @@
 </div>
 <br>
 <a href="{{ url_for('logout') }}">Logout</a>
+<a href="{{ url_for('delete') }}" class="delete">Delete Account</a>
 {% endblock %}

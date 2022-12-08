@@ -1,5 +1,22 @@
-import smtplib
+from conf.definitions import get_key
+from email.message import EmailMessage
 import ssl
+import smtplib
+
+def mail(receiver, subject, content):
+    sender = 'info.equitramlve@gmail.com'
+    password = get_key('data/mail.key')
+    context = ssl.create_default_context()
+
+    em = EmailMessage()
+    em['From'] = sender
+    em['To'] = receiver
+    em['Subject'] = subject
+    em.set_content(content)
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', '465', context = context) as smtp:
+        smtp.login(sender, password)
+        smtp.sendmail(sender, receiver, em.as_string())
 
 def get_user_data():
     user = ""
@@ -10,15 +27,6 @@ def get_user_data():
         password = file[1].strip()
 
     return user, password
-
-def mail(receiver, subject, content):
-    sender, password = get_user_data()
-    message = f"Subject: {subject}\n\n{content}"
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("mail.equitra-mlve.eu", 465, context=context) as server:
-        server.login(sender, password)
-        server.sendmail(sender, receiver, message)
 
 def send_newsletter(subject, content):
     email_list = []

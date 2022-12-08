@@ -1,7 +1,8 @@
 from cryptography.fernet import Fernet
 import shutil
 import os
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfFileReader
+from datetime import date, datetime
 
 def newsletter(form, current_user):
     email = current_user.email
@@ -75,3 +76,21 @@ def pdf2article(path, filename):
     with open(r'data/database/articles.db', 'w') as f:
         for item in articles:
             f.write("%s\n" % item)
+
+def log(text):
+    today = date.today()
+    file = f"data/log/{today}.log"
+
+    if os.path.exists(file):
+        with open(f"data/log/{today}.log", "a") as log:
+            current_time = datetime.now()
+            time = current_time.strftime("%H:%M")
+            log.write(f"{time} | {text}\n")
+    else:
+        f = open(f"data/log/{today}.log", "w")
+        f.write(f"Log file | {today}\n\n")
+        f.close()
+        with open(f"data/log/{today}.log", "a") as log:
+            current_time = datetime.now()
+            time = current_time.strftime("%H:%M")
+            log.write(f"{time} | {text}\n")

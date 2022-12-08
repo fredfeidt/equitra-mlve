@@ -1,1 +1,5 @@
 @import url("../static/style.css");
+
+.delete {
+    color: red;
+}

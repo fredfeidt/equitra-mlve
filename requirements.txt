@@ -1,0 +1,7 @@
+flask
+flask_wtf
+wtforms
+flask_bootstrap
+cryptographys
+PyPDF2
+Flask-SQLAlchemy

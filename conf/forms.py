@@ -14,13 +14,14 @@ class SignUpForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     recaptcha = RecaptchaField()
 
+class DeleteForm(FlaskForm):
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=16)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    recaptcha = RecaptchaField()
+
 class AccountForm(FlaskForm):
     newsletter = BooleanField('newsletter')
 
 class UploadFileForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     title = StringField('title', validators=[InputRequired()])
-
-class AdminSettingsForm(FlaskForm):
-    backup = BooleanField('backup')
-    cleartemp = BooleanField('cleartemp')

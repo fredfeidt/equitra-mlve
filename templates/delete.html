@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block conf %}
+<title>Delete</title>
+<link rel="icon" href="../static/images/icon.ico">
+<link rel="stylesheet" href="../static/delete.css">
+{% endblock %}
+
+{% block content%}
+<form method="post" action="{{ url_for('delete') }}">
+    {{ form.hidden_tag() }}
+    <p>Username</p>
+    {{ form.username }}
+
+    <p>Password</p>
+    {{ form.password }}
+    
+    {{ form.recaptcha }}
+    <button type="submit">Delete Account</button>
+    <a href="#">Forgot password?</a>
+</form>
+{% endblock %}

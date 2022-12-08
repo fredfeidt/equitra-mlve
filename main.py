@@ -15,9 +15,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = get_key('data/app.key')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///data/database/database.db"
 app.config['UPLOAD_FOLDER'] = "data/temp"
-app.config['RECAPTCHA_PUBLIC_KEY'] = "6LcdHfIhAAAAANTR2zQlF0HRGJrHsg4dHKm1h4-L"
+app.config['RECAPTCHA_PUBLIC_KEY'] = "6LeV5AAjAAAAACODekyZL6OdKTPa7ggejdMny-tR"
 app.config['RECAPTCHA_PRIVATE_KEY'] = get_key('data/recaptcha.key')
 # https://www.google.com/recaptcha/about/
+# https://myaccount.google.com/u/2/apppasswords
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
@@ -69,15 +70,12 @@ def blog():
 @app.route("/account/", methods=["GET", "POST"])
 @login_required
 def account():
-    """
     form = AccountForm()
 
     if form.validate_on_submit():
         newsletter(form, current_user)
         
-    return render_template("account.html", form=form, name=current_user.username)
-    """
-    return render_template("comingsoon.html")
+    return render_template("account.html", form=form, name=current_user.username, email=current_user.email)
 
 @app.route("/login/", methods=["GET", "POST"])
 def login():
@@ -90,9 +88,9 @@ def login():
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('account'))
 
-        return '<h1>Invalid username or password</h1>'
+        return render_template("login.html", form=form, wrong_login=True)
 
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, wrong_login=False)
 
 @app.route("/signup/", methods=["GET", "POST"])
 def signup():
@@ -103,15 +101,16 @@ def signup():
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        log(f"a new user \"{form.username.data}\" has signed up")
         return redirect(url_for("login"))
 
-    return render_template("signup.html", form=form,)
+    return render_template("signup.html", form=form)
 
 @app.route("/contact/")
 def contact():
     return render_template("contact.html")
 
-@app.route("/admin/", methods=['GET', 'POST'])
+@app.route("/admin/")
 @login_required
 def admin():
     id = current_user.username
@@ -119,31 +118,7 @@ def admin():
     list = f.read()
 
     if id in list:
-        count = 0
-        backuplist = []
-        with open('backup/backup.conf', 'r') as f:
-            for line in f:
-                count += 1
-                if count == 1:
-                    backup = line.strip()
-                elif count == 2:
-                    cleartemp = line.strip()
-                else:
-                    backuplist.append(line.strip())
-
-        print(backup)
-        print(cleartemp)
-
-        form = AdminSettingsForm()
-        if form.validate_on_submit():
-            with open('backup/backup.conf', 'w') as f:
-                f.write(f'{form.backup.data}\n')
-                f.write(f'{form.cleartemp.data}\n')
-                for item in backuplist:
-                    f.write(f'{item}\n')
-            f.close()
-
-        return render_template("admin.html", form=form, backup=backup, cleartemp=cleartemp)
+        return render_template("admin.html")
     else:
         return redirect(url_for("home"))
 
@@ -162,10 +137,29 @@ def admin_upload():
             file.save(path)
             pdf2article(path, form.title.data)
             shutil.copyfile(path, f"data/articles/pdf/{form.title.data}.pdf")
+            log(f"a new article \"{form.title.data}\" has been uploaded")
 
         return render_template("admin_upload.html", form=form)
     else:
         return redirect(url_for("home"))
+
+@app.route('/delete/', methods=['GET', 'POST'])
+@login_required
+def delete():
+    form = DeleteForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if check_password_hash(user.password, form.password.data):
+                log(f"the user \"{current_user.username}\" has deleted their account")
+                db.session.query(User).filter(User.id == current_user.id).delete()
+                db.session.commit()
+                return redirect(url_for('login'))
+
+        return render_template("delete.html", form=form)
+
+    return render_template("delete.html", form=form)
 
 #endregion
 

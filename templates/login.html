@@ -9,6 +9,12 @@
 {% block content %}
 <h2>Please sign in</h2>
 <form method="post" action="{{ url_for('login') }}">
+    {% if wrong_login == True %}
+        <h4 class="wrong">Wrong Username or Password</h4>
+    {% endif %}
+    {% if deleted == True %}
+        <h4 class="wrong">Your account has been successfully deleted</h4>
+    {% endif %}
     {{ form.hidden_tag() }}
     <p>Username</p>
     {{ form.username }}
