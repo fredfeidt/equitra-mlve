@@ -15,8 +15,12 @@
     <br>
     <form class="form-signin" method="post" action="/account/">
         {{ form.hidden_tag() }}
-        <p>{{ form.newsletter }} Receive newsletters</p>
-        <button type="submit">Save</button>
+        <p>Newsletter</p>
+        {% if is_signed_up == True%}
+            <button type="submit">Usubscribe</button>
+        {% elif is_signed_up == False%}
+            <button type="submit">Subscribe</button>
+        {% endif %}
     </form>
 </div>
 <br>

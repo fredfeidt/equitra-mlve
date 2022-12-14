@@ -4,10 +4,11 @@ import os
 from PyPDF2 import PdfFileReader
 from datetime import date, datetime
 
-def newsletter(form, current_user):
+def newsletter(form, current_user, is_signed_up):
     email = current_user.email
     email_list = []
-    if form.newsletter.data == True:
+
+    if is_signed_up == False:
         with open(r'data/database/newsletter.db', 'r') as f:
             for line in f:
                 x = line[:-1]

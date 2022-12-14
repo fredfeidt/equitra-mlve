@@ -70,12 +70,29 @@ def blog():
 @app.route("/account/", methods=["GET", "POST"])
 @login_required
 def account():
+    user_email = current_user.email
+    email_list = []
     form = AccountForm()
+    is_signed_up = True
+
+    with open(r'data/database/newsletter.db', 'r') as f:
+        for line in f:
+            x = line[:-1]
+            email_list.append(x)
+
+    if user_email in email_list:
+        is_signed_up = True
+    else:
+        is_signed_up = False
 
     if form.validate_on_submit():
-        newsletter(form, current_user)
+        newsletter(form, current_user, is_signed_up)
+        if is_signed_up == True:
+            return render_template("account.html", form=form, name=current_user.username, email=current_user.email, is_signed_up=False)
+        elif is_signed_up == False:
+            return render_template("account.html", form=form, name=current_user.username, email=current_user.email, is_signed_up=True)
         
-    return render_template("account.html", form=form, name=current_user.username, email=current_user.email)
+    return render_template("account.html", form=form, name=current_user.username, email=current_user.email, is_signed_up=is_signed_up)
 
 @app.route("/login/", methods=["GET", "POST"])
 def login():
